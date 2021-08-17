@@ -1,0 +1,2 @@
+[![Build Status](https://travis-ci.com/MishailEx/job4j_design.svg?branch=master)](https://travis-ci.com/MishailEx/job4j_design)
+[![codecov](https://codecov.io/gh/MishailEx/job4j_design/branch/master/graph/badge.svg?token=FU5G6G5OO9)](https://codecov.io/gh/MishailEx/job4j_design)
