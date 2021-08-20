@@ -17,6 +17,7 @@ public class EvenIterator implements Iterator<Integer> {
     public boolean hasNext() {
         for (int i = tmp; i < data.length; i++) {
             if (data[i] % 2 == 0) {
+                tmp = i;
                 return true;
             }
         }
@@ -28,22 +29,6 @@ public class EvenIterator implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        for (int i = tmp; i < data.length; i++) {
-            if (data[i] % 2 == 0) {
-                tmp = i;
-                break;
-            }
-        }
         return data[tmp++];
-    }
-
-    @Override
-    public void remove() {
-        Iterator.super.remove();
-    }
-
-    @Override
-    public void forEachRemaining(Consumer<? super Integer> action) {
-        Iterator.super.forEachRemaining(action);
     }
 }
