@@ -22,22 +22,11 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean delete(String id) {
-        for (String num : mem.keySet()) {
-            if (num.contains(id)) {
-                mem.remove(num);
-                return true;
-            }
-        }
-        return false;
+        return mem.remove(id) != null;
     }
 
     @Override
     public T findById(String id) {
-        for (String num : mem.keySet()) {
-            if (num.contains(id)) {
-                return mem.get(id);
-            }
-        }
-        return null;
+        return mem.get(id);
     }
 }
