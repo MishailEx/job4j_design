@@ -19,19 +19,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        int indexKey = key == null ? 0 : indexFor(hash(key.hashCode()));
-        if (count != 0) {
-            Iterator<K> iterator = iterator();
-            while (iterator.hasNext()) {
-                K temp = iterator.next();
-                int indexTmp = temp == null ? 0 : indexFor(hash(temp.hashCode()));
-                if (indexKey == indexTmp) {
-                    return false;
-                }
-            }
-        }
         if (count >= capacity * LOAD_FACTOR) {
-            expand();
+        expand();
+        }
+        int indexKey = 0;
+        if (key != null) {
+            indexKey = indexFor(hash(key.hashCode()));
+        }
+        if (count != 0) {
+            if (table[indexKey] != null) {
+                    return false;
+            }
         }
         table[indexKey] = new MapEntry<>(key, value);
         count++;
@@ -63,10 +61,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        int indexKey = key == null ? 0 : indexFor(hash(key.hashCode()));
-        return count != 0
-                ? table[indexKey] == null ? null : table[indexKey].value
-                : null;
+        int indexKey = 0;
+        if (key != null) {
+            indexKey = indexFor(hash(key.hashCode()));
+        }
+        if (count != 0) {
+            if (table[indexKey] == null) {
+                return null;
+            }
+            return table[indexKey].value;
+        }
+        return null;
     }
 
     @Override
