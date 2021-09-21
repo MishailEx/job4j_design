@@ -29,7 +29,7 @@ public class AnalizeTest {
         User u3 = new User(3, "C");
         Set<User> previous = Set.of(u1, u2, u3);
         Set<User> current = Set.of(u1, new User(2, "BB"), u3);
-        Info info = Analize.diff(previous,current);
+        Info info = Analize.diff(previous, current);
         assertThat(
                 Analize.diff(previous, current),
                 is(new Info(0, 1, 0))
