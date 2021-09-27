@@ -11,7 +11,6 @@ import java.util.function.Predicate;
 
 public class SearchFiles implements FileVisitor<Path> {
     private String extension;
-    private Predicate<Path> predicate;
     private List<Path> paths = new ArrayList<>();
 
     public SearchFiles(String extension) {
