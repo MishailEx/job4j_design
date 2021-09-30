@@ -11,8 +11,12 @@ public class Search {
         if (args.length == 0) {
             throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
         }
+        if (args.length < 2) {
+            throw new IllegalArgumentException("File extension not specified");
+        }
         Path start = Paths.get(args[0]);
-        search(start, ".txt").forEach(System.out::println);
+        String extension = args[1];
+        search(start, extension).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, String extension) throws IOException {
