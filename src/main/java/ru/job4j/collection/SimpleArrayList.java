@@ -7,9 +7,7 @@ import java.util.*;
 public class SimpleArrayList<T> implements List<T> {
 
     private T[] container;
-
     private int size;
-
     private int modCount;
 
     public SimpleArrayList(int capacity) {
@@ -60,9 +58,9 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             private int point = 0;
-            int expectedModCount = modCount;
+            final int expectedModCount = modCount;
             @Override
             public boolean hasNext() {
                 return  point < size;
@@ -78,7 +76,6 @@ public class SimpleArrayList<T> implements List<T> {
                 }
                 return container[point++];
             }
-
         };
     }
 }
