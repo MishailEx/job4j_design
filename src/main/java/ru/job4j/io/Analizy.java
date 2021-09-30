@@ -31,6 +31,10 @@ public class Analizy {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        writeToFile(target, log);
+    }
+
+    private static void writeToFile(String target, Map<String, String> log) {
         try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
             for (Map.Entry<String, String> entry: log.entrySet()) {
                 out.println(entry.getKey() + ";" + entry.getValue());
@@ -38,7 +42,6 @@ public class Analizy {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) {
