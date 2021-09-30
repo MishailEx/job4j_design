@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class SearchFiles implements FileVisitor<Path> {
-    private String extension;
+    private Predicate<Path> predicate;
     private List<Path> paths = new ArrayList<>();
 
-    public SearchFiles(String extension) {
-        this.extension = extension;
+    public SearchFiles(Predicate<Path> predicate) {
+        this.predicate = predicate;
 
     }
 
@@ -25,7 +25,7 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (file.toString().endsWith(extension)) {
+        if (predicate.test(file)) {
             paths.add(file.toAbsolutePath());
         }
         return FileVisitResult.CONTINUE;

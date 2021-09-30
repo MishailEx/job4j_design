@@ -8,26 +8,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
-    public static void archiving(String path, String extension, String nameZip) throws IOException {
+    public static void archiving(String path, Predicate<Path> predicate, String nameZip) throws IOException {
         Path pas = Path.of(path);
-        if (path == null || extension == null || nameZip == null) {
+        if (path == null || predicate == null || nameZip == null) {
             throw new IllegalArgumentException();
         }
         if (!Files.exists(pas)) {
             throw new IllegalArgumentException(String.format("Not exist %s", Path.of(path)));
         }
-        List<Path> allFile = Files.walk(Path.of(path))
-                .filter(Files::isRegularFile)
-                .collect(Collectors.toList());
-        List<Path> del = Search.search(pas, extension);
-        allFile.removeAll(del);
-        List<File> save = allFile.stream().map(Path::toFile).collect(Collectors.toList());
+        List<Path> all = Search.search(Path.of(path), predicate);
+        List<File> save = all.stream().map(Path::toFile).collect(Collectors.toList());
+
         packFiles(save, new File(nameZip));
     }
 
@@ -57,7 +55,7 @@ public class Zip {
 
     public static void main(String[] args) throws IOException {
         ArgsName argsName = ArgsName.of(args);
-        archiving(argsName.get("d"), argsName.get("e"), argsName.get("o"));
+        archiving(argsName.get("d"), p -> !p.toString().endsWith(argsName.get("e")), argsName.get("o"));
 
 
     }
