@@ -26,20 +26,20 @@ public class ConsoleChat {
         List<String> log = new ArrayList<>();
         List<String> phrase = readPhrases();
         Random random = new Random();
-        int stop = 0;
+        boolean stop = true;
         String console = in.readLine();
-        while (!console.equals(OUT)) {
-            log.add("Пользователь - " + console + " ");
-            if (console.equals(STOP)) {
-                stop = 1;
+        while (!OUT.equals(console)) {
+            log.add("Пользователь - " + console + System.lineSeparator());
+            if (STOP.equals(console)) {
+                stop = false;
             }
-            if (console.equals(CONTINUE)) {
-                stop = 0;
+            if (CONTINUE.equals(console)) {
+                stop = true;
             }
-            if (stop == 0) {
+            if (stop) {
                 String bot = phrase.get(random.nextInt(phrase.size()));
                 System.out.println(bot);
-                log.add("Бот - " + bot + " ");
+                log.add("Бот - " + bot + System.lineSeparator());
             }
             console = in.readLine();
         }
@@ -65,7 +65,7 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) throws IOException {
-        ConsoleChat cc = new ConsoleChat("C:\\projects\\log.txt", "C:\\projects\\lll.txt");
+        ConsoleChat cc = new ConsoleChat("./log1.txt", "./lll.txt");
         cc.run();
     }
 }
