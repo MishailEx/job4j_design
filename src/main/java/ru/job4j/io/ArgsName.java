@@ -24,7 +24,7 @@ public class ArgsName {
             if (str.length == 1) {
                 throw new IllegalArgumentException("Empty field");
             }
-            values.put(s.split("=")[0], (s.split("=")[1]));
+            values.put(str[0], (str[1]));
         }
     }
 
