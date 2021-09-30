@@ -10,18 +10,11 @@ import java.util.stream.Collectors;
 
 public class LogFilter {
     public static List<String> filter(String file) {
-        List<String> tmp;
         List<String> save = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
-            tmp = in.lines()
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            in.lines()
                     .filter(e -> e.contains("404"))
-                    .collect(Collectors.toList());
-            for (String str : tmp) {
-                String[] se = str.split("\\s");
-                if (se[se.length - 2].equals("404")) {
-                    save.add(str);
-                }
-            }
+                    .forEach(save :: add);
         } catch (Exception e) {
             e.printStackTrace();
         }
