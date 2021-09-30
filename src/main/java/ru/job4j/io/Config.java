@@ -22,8 +22,8 @@ public class Config {
         try (BufferedReader out = new BufferedReader(
                 new FileReader(path))) {
             out.lines()
-                    .filter(e -> e.contains("="))
-                    .map(s -> s.split("="))
+                    .filter(e -> !e.startsWith("#"))
+                    .map(s -> s.split("=", 2))
                     .forEach(a -> {
                         try {
                             if (a[0].trim().isEmpty()) {
@@ -35,7 +35,7 @@ public class Config {
                             e.printStackTrace();
                         }
                     });
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -59,7 +59,7 @@ public class Config {
         System.out.println(new Config("app.properties"));
         Config config = new Config("app.properties");
         config.load();
-        for (Map.Entry entry: config.values.entrySet()) {
+        for (Map.Entry entry : config.values.entrySet()) {
             System.out.println("Key: " + entry.getKey() + " Value: "
                     + entry.getValue());
         }
