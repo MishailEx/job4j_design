@@ -14,14 +14,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
+
     Set<FileProperty> all = new HashSet<>();
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (all.contains(new FileProperty(Files.size(file), file.getFileName().toString()))) {
+        FileProperty fileProperty = new FileProperty(Files.size(file), file.getFileName().toString());
+        if (all.contains(fileProperty)) {
                 System.out.println(file.toAbsolutePath());
 
             }
-        all.add(new FileProperty(Files.size(file), file.getFileName().toString()));
+        all.add(fileProperty);
         return super.visitFile(file, attrs);
     }
 }
