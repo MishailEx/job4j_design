@@ -11,25 +11,26 @@ public class CSVReader {
         if (!Files.exists(Path.of(argsName.get("path")))) {
             throw new IllegalArgumentException("File not found");
         }
-        Scanner scannerLine = new Scanner(new File(argsName.get("path")));
-        List<String> filterWords = Arrays.asList(argsName.get("filter").split(","));
-        List<Integer> in = new ArrayList<>();
-        List<String> csv = new ArrayList<>();
-        while (scannerLine.hasNextLine()) {
-            Scanner scannerEl = new Scanner(scannerLine.nextLine()).useDelimiter(argsName.get("delimiter"));
-            while (scannerEl.hasNext()) {
-                String f = scannerEl.next();
-                csv.add(f);
-                if (filterWords.contains(f)) {
-                    in.add(csv.indexOf(f));
+        try (Scanner scannerLine = new Scanner(new File(argsName.get("path")))) {
+            List<String> filterWords = Arrays.asList(argsName.get("filter").split(","));
+            List<Integer> in = new ArrayList<>();
+            List<String> csv = new ArrayList<>();
+            while (scannerLine.hasNextLine()) {
+                Scanner scannerEl = new Scanner(scannerLine.nextLine()).useDelimiter(argsName.get("delimiter"));
+                while (scannerEl.hasNext()) {
+                    String f = scannerEl.next();
+                    csv.add(f);
+                    if (filterWords.contains(f)) {
+                        in.add(csv.indexOf(f));
+                    }
                 }
+                if (argsName.get("out").equals("stdout")) {
+                    showOnConsole(in, csv);
+                } else {
+                    writeInFile(argsName.get("out"), in, csv);
+                }
+                csv.clear();
             }
-            if (argsName.get("out").equals("stdout")) {
-                showOnConsole(in, csv);
-            } else {
-                writeInFile(argsName.get("out"), in, csv);
-            }
-            csv.clear();
         }
     }
 

@@ -13,18 +13,22 @@ public class ArgsName {
     }
 
     private void parse(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("File is empty");
-        }
+        validate(args);
         for (String s: args) {
             if (s.startsWith("-")) {
                s = s.substring(1);
             }
-            String[] str = s.split("=");
-            if (str.length == 1) {
+            String[] str = s.trim().split("=");
+            if (str[0].isEmpty() || str.length != 2) {
                 throw new IllegalArgumentException("Empty field");
             }
             values.put(str[0], (str[1]));
+        }
+    }
+
+    private static void validate(String[] array) {
+        if (array.length == 0) {
+            throw new IllegalArgumentException("File is empty");
         }
     }
 
@@ -40,5 +44,6 @@ public class ArgsName {
 
         ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
+
     }
 }
