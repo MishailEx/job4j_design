@@ -8,9 +8,6 @@ import java.util.*;
 
 public class CSVReader {
     public static void handle(ArgsName argsName) throws Exception {
-        if (!Files.exists(Path.of(argsName.get("path")))) {
-            throw new IllegalArgumentException("File not found");
-        }
         try (Scanner scannerLine = new Scanner(new File(argsName.get("path")))) {
             List<String> filterWords = Arrays.asList(argsName.get("filter").split(","));
             List<Integer> in = new ArrayList<>();
@@ -32,6 +29,26 @@ public class CSVReader {
                 csv.clear();
             }
         }
+    }
+
+    private static ArgsName validateArgument(String[] args) {
+        if (args.length != 4) {
+            throw new IllegalArgumentException("missing arguments. Must be  -path=xx"
+                    + " -delimiter=xx  -out=stdout or file -filter=xx");
+        }
+        ArgsName arg = ArgsName.of(args);
+        if (arg.get("path") == null || arg.get("delimiter") == null
+                || arg.get("out") == null || arg.get("filter") == null) {
+            throw new IllegalArgumentException("not argument");
+        }
+        if (!Files.exists(Path.of(arg.get("path")))) {
+            throw new IllegalArgumentException(arg.get("path") + "not found");
+        }
+        if (arg.get("path").isEmpty() || arg.get("delimiter").isEmpty()
+                || arg.get("out").isEmpty() || arg.get("filter").isEmpty()) {
+            throw new IllegalArgumentException("not argument value");
+        }
+        return arg;
     }
 
     private static void showOnConsole(List<Integer> in,  List<String> csv) {
@@ -62,7 +79,7 @@ public class CSVReader {
     }
 
     public static void main(String[] args) throws Exception {
-        ArgsName argsName = ArgsName.of(args);
+        ArgsName argsName = validateArgument(args);
         handle(argsName);
     }
 }
