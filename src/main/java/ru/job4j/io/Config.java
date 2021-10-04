@@ -23,17 +23,18 @@ public class Config {
                 new FileReader(path))) {
             out.lines()
                     .filter(e -> !e.startsWith("#"))
-                    .map(s -> s.split("=", 2))
+                    .map(s -> {
+                        if (!s.contains("=")) {
+                            throw new IllegalArgumentException();
+                        }
+                        return s.split("=", 2);
+                    })
                     .forEach(a -> {
-                        try {
                             if (a[0].trim().isEmpty()) {
                                 throw new IllegalArgumentException();
                             } else {
                                 values.put(a[0], (a.length > 1 ? a[1] : ""));
                             }
-                        } catch (IllegalArgumentException e) {
-                            e.printStackTrace();
-                        }
                     });
         } catch (IOException e) {
             e.printStackTrace();
