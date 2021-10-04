@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Find {
     public static void main(String[] args) throws IOException {
@@ -28,20 +30,36 @@ public class Find {
         writeInFile(arg.get("o"), toWrite);
     }
 
+    private static boolean validateT(String typeFind) {
+        if (typeFind.equals("mask") || typeFind.equals("name") || typeFind.equals("regex")) {
+            return true;
+        } else {
+            throw new IllegalArgumentException("Search type must be : mask or name or regex");
+        }
+    }
+
     private static Predicate<Path> predicate(String typeFind, String file) {
         Predicate<Path> predicate = null;
-        if (typeFind.equals("mask") || typeFind.equals("name") || typeFind.equals("regex")) {
+        if (validateT(typeFind)) {
             if (typeFind.equals("mask")) {
-                predicate = p -> p.toFile().getName().endsWith(file);
+                predicate = p -> {
+                    file.replace("*", ".*")
+                            .replace("?", "\\w{1}");
+                    Pattern pattern = Pattern.compile(file);
+                    Matcher matcher = pattern.matcher(p.toFile().getName());
+                    return matcher.find();
+                };
             }
             if (typeFind.equals("name")) {
                 predicate = p -> p.toFile().getName().equals(file);
             }
             if (typeFind.equals("regex")) {
-                predicate = p -> p.toFile().getName().matches("(.*)" + file + "(.*)");
+                predicate = p -> {
+                    Pattern pattern = Pattern.compile(file);
+                    Matcher matcher = pattern.matcher(p.toFile().getName());
+                    return matcher.find();
+                };
             }
-            } else {
-                throw new IllegalArgumentException("Search type must be : mask or name or regex");
         }
         return predicate;
     }
