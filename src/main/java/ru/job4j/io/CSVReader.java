@@ -44,10 +44,6 @@ public class CSVReader {
         if (!Files.exists(Path.of(arg.get("path")))) {
             throw new IllegalArgumentException(arg.get("path") + "not found");
         }
-        if (arg.get("path").isEmpty() || arg.get("delimiter").isEmpty()
-                || arg.get("out").isEmpty() || arg.get("filter").isEmpty()) {
-            throw new IllegalArgumentException("not argument value");
-        }
         return arg;
     }
 
