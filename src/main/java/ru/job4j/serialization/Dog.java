@@ -81,32 +81,5 @@ public class Dog {
         jsonObject.put("crimes", jsonCrimes);
         System.out.println(jsonObject);
         System.out.println(new JSONObject(dog));
-
-
-//        JAXBContext context = JAXBContext.newInstance(Dog.class);
-//        Marshaller marshaller = context.createMarshaller();
-//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//        String xml = "";
-//        try (StringWriter stringWriter = new StringWriter()) {
-//            marshaller.marshal(dog, stringWriter);
-//            xml = stringWriter.getBuffer().toString();
-//            System.out.println(xml);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Unmarshaller unmarshaller = context.createUnmarshaller();
-//        try (StringReader reader = new StringReader(xml)) {
-//            Dog result = (Dog) unmarshaller.unmarshal(reader);
-//            System.out.println(result);
-//        }
-
-//        final Gson gson = new GsonBuilder().create();
-//        System.out.println(gson.toJson(dog));
-//
-//        String str = "{ \"age\":2,\"name\":\"bobik\",\"sex\":\"true\","
-//                + "\"parents\":{\"father\":\"taksa\",\"mather\":\"bolonka\"},"
-//                + "\"crimes\":[\"gnaw\",\"steels\"]}";
-//        Dog dogFromJSON = gson.fromJson(str, Dog.class);
-//        System.out.println(dogFromJSON);
     }
 }
