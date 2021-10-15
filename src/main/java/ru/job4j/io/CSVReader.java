@@ -12,6 +12,7 @@ public class CSVReader {
             List<String> filterWords = Arrays.asList(argsName.get("filter").split(","));
             List<Integer> in = new ArrayList<>();
             List<String> csv = new ArrayList<>();
+            List<String> tmpLine = new ArrayList<>();
             while (scannerLine.hasNextLine()) {
                 Scanner scannerEl = new Scanner(scannerLine.nextLine()).useDelimiter(argsName.get("delimiter"));
                 while (scannerEl.hasNext()) {
@@ -28,6 +29,8 @@ public class CSVReader {
                 }
                 csv.clear();
             }
+
+
         }
     }
 
@@ -50,10 +53,10 @@ public class CSVReader {
     private static void showOnConsole(List<Integer> in,  List<String> csv) {
         for (int i = 0; i < in.size(); i++) {
             if (i == in.size() - 1) {
-                System.out.print(csv.get(i));
+                System.out.print(csv.get(in.get(i)));
                 break;
             }
-            System.out.print(csv.get(i) + ";");
+            System.out.print(csv.get(in.get(i)) + ";");
         }
         System.out.println();
     }
@@ -63,10 +66,10 @@ public class CSVReader {
                 new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
             for (int i = 0; i < in.size(); i++) {
                 if (i == in.size() - 1) {
-                    pw.write(csv.get(i));
+                    pw.write(csv.get(in.get(i)));
                     break;
                 }
-                pw.write(csv.get(i) + ";");
+                pw.write(csv.get(in.get(i)) + ";");
             }
             pw.write(System.lineSeparator());
         } catch (IOException e) {
