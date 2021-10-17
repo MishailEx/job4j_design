@@ -1,12 +1,8 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LogFilter {
     public static List<String> filter(String file) {

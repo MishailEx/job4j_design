@@ -12,7 +12,6 @@ public class CSVReader {
             List<String> filterWords = Arrays.asList(argsName.get("filter").split(","));
             List<Integer> in = new ArrayList<>();
             List<String> csv = new ArrayList<>();
-            List<String> tmpLine = new ArrayList<>();
             while (scannerLine.hasNextLine()) {
                 Scanner scannerEl = new Scanner(scannerLine.nextLine()).useDelimiter(argsName.get("delimiter"));
                 while (scannerEl.hasNext()) {

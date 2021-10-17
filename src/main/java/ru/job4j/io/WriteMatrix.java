@@ -1,12 +1,7 @@
 package ru.job4j.io;
 
-import javax.sound.sampled.AudioFormat;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class WriteMatrix {
     public static int[][] multiple(int size) {
