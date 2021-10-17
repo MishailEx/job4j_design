@@ -3,12 +3,9 @@ package ru.job4j.search;
 import ru.job4j.io.SearchFiles;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -34,9 +31,6 @@ public class Find {
     }
 
     private static ArgsName validateArgument(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Not argument for search");
-        }
         if (args.length != 4) {
             throw new IllegalArgumentException("missing arguments. Must be -d=directory"
                     + " -n=what search -t=type search -o=where write result");
@@ -49,10 +43,6 @@ public class Find {
         if (!Files.isDirectory(Path.of(arg.get("d")))) {
             throw new IllegalArgumentException(arg.get("d") + "not is directory");
         }
-        if (arg.get("d").isEmpty() || arg.get("n").isEmpty()
-                || arg.get("t").isEmpty() || arg.get("o").isEmpty()) {
-            throw new IllegalArgumentException("not argument value");
-        }
         return arg;
     }
 
@@ -61,8 +51,7 @@ public class Find {
         if (validateT(typeFind)) {
             if (typeFind.equals("mask")) {
                 predicate = p -> {
-                    String mask = file;
-                    mask.replace("*", ".*")
+                    String mask = file.replace("*", ".*")
                             .replace("?", "\\w{1}");
                     Pattern pattern = Pattern.compile(mask);
                     Matcher matcher = pattern.matcher(p.toFile().getName());
