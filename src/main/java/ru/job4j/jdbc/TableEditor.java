@@ -1,10 +1,7 @@
 package ru.job4j.jdbc;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringJoiner;
@@ -15,12 +12,13 @@ public class TableEditor implements AutoCloseable {
 
     private Properties properties;
 
-    public TableEditor(Properties properties) throws SQLException {
+    public TableEditor(Properties properties) throws SQLException, ClassNotFoundException {
         this.properties = properties;
         initConnection();
     }
 
-    private void initConnection() throws SQLException {
+    private void initConnection() throws SQLException, ClassNotFoundException {
+        Class.forName(properties.getProperty("jdbc.driver"));
         connection = DriverManager.getConnection(
                 properties.getProperty("hibernate.connection.url"),
                 properties.getProperty("hibernate.connection.username"),
@@ -102,7 +100,7 @@ public class TableEditor implements AutoCloseable {
         }
     }
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
         Properties properties = new Properties();
         properties.load(new FileInputStream("app.properties"));
         TableEditor tableEditor = new TableEditor(properties);
